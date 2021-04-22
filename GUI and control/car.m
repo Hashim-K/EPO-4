@@ -8,7 +8,7 @@ classdef car
 	velocity = 0;		% init value is needed!
     acceleration = 0;
 	time
-    crash = 0;
+    status = 0; % -1 = crash, 0 = off, 1 = on
     end
 
     methods
@@ -34,7 +34,7 @@ classdef car
 	    v = obj.velocity;
         a = obj.acceleration;
 	    t = obj.time;
-        crsh = obj.crash;
+        crsh = obj.status;
 
 	    s = sprintf('positionx: %g',x);
 	    disp(s);
@@ -42,7 +42,7 @@ classdef car
 	    disp(s);
 	    s = sprintf('acceleration: %g',a);
 	    disp(s);
-	    s = sprintf('crash: %g',crsh);
+	    s = sprintf('status: %g',crsh);
 	    disp(s);
 	    s = sprintf('time since last update: %g',toc(t));
 	    disp(s);
@@ -64,6 +64,12 @@ classdef car
 
             obj.velocity = v1;		% calls set.positionx; resets timer
 	    obj.acceleration = a;		% then, update velocity
+    end
+    
+	function obj = set.status(obj,stat)
+	    % first update positionx based on the old velocity
+        obj.status = stat
+
 	end
 
 	function x1 = get.positionx(obj)
@@ -72,19 +78,19 @@ classdef car
             t0 = obj.time;		% t0 = time when last called
             x0 = obj.positionx;		% x0 = positionx at time t0
             v = obj.velocity;		% v = velocity at time t0
-            %global crash_x_pos
+            %global status_x_pos
             T = toc(t0);		% elapsed time (in seconds) since t0
-            %if (obj.crash == 1)
-            %    x1 = crash_x_pos;
+            %if (obj.status == 1)
+            %    x1 = status_x_pos;
             %else
                 x1 = x0 + v*T;		% current positionx based on elapsed time
             %end
     end
     
-    function cr = get.crash(obj)
+    function cr = get.status(obj) %cr is the status
         global x
             if(x > 600 | x < 0)
-                cr = 1;	
+                cr = -1;	
             else
                 cr = 0;
             end
@@ -99,7 +105,7 @@ classdef car
 
             T = toc(t1);		% elapsed time (in seconds) since t0
 
-            if (obj.crash == 1)
+            if (obj.status == 1)
                 v1 = 0;
             else
                 v1 = v0 + a*T;		% current velocity based on elapsed time
