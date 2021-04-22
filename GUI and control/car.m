@@ -1,16 +1,3 @@
-% Example script:
-%
-% Create a class named car, placed in file 'car.m' (use same name as class)
-% Usage:
-% kitt = car		% create a new car
-% kitt.velocity = 3	% give it some speed
-% kitt			% update positionx based on velocity before displaying
-% kitt.positionx		% also calculates positionx
-%
-% to add:
-%   property value validation; range restrictions
-%
-% Alle-Jan van der Veen, TU Delft, 24 Apr 2020
 
 
 classdef car 
