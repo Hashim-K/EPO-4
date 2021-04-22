@@ -1,5 +1,3 @@
-
-
 classdef car 
     properties
 	% status parameters
@@ -8,7 +6,7 @@ classdef car
 	velocity = 0;		% init value is needed!
     acceleration = 0;
 	time
-    status = 0; % -1 = crash, 0 = off, 1 = on
+    status; % -1 = crash, 0 = off, 1 = on
     end
 
     methods
@@ -16,12 +14,11 @@ classdef car
 	    % constructor (same name as class); returns initialized object
 	    if nargin == 0
 	        x = 0; v = 0;	a = 0;% if no input arguments
-            global first
-            first = 1;
 	    end	
 	    obj.positionx = x;   % (calls set.positionx; also starts timer)
 	    obj.velocity = v;	% calls set.velocity (thus, init value needed)
         obj.acceleration = a;
+        obj.status=0;
         
 	end
 
@@ -34,7 +31,7 @@ classdef car
 	    v = obj.velocity;
         a = obj.acceleration;
 	    t = obj.time;
-        crsh = obj.status;
+        stat = obj.status;
 
 	    s = sprintf('positionx: %g',x);
 	    disp(s);
@@ -42,7 +39,7 @@ classdef car
 	    disp(s);
 	    s = sprintf('acceleration: %g',a);
 	    disp(s);
-	    s = sprintf('status: %g',crsh);
+	    s = sprintf('status: %g',stat);
 	    disp(s);
 	    s = sprintf('time since last update: %g',toc(t));
 	    disp(s);
@@ -69,9 +66,15 @@ classdef car
 	function obj = set.status(obj,stat)
 	    % first update positionx based on the old velocity
         obj.status = stat
+    end
+    
+    function obj = set.positionx(obj,x)
+	    % when 'positionx' is set, also reset time; leave v the same
+	    obj.positionx = x;		% set current positionx
 
-	end
-
+            obj.time = tic;             % store current time
+    end
+    
 	function x1 = get.positionx(obj)
 	    % when 'positionx' is queried, calculate current positionx
 	    % (note, cannot update it because 'obj' is not an output param)
@@ -87,13 +90,12 @@ classdef car
             %end
     end
     
-    function cr = get.status(obj) %cr is the status
+    function stat = get.status(obj) %cr is the status
         global x
             if(x > 600 | x < 0)
-                cr = -1;	
-            else
-                cr = 0;
+                obj.status=-1;	
             end
+                stat = obj.status;
     end
     
 	function v1 = get.velocity(obj)
@@ -105,18 +107,13 @@ classdef car
 
             T = toc(t1);		% elapsed time (in seconds) since t0
 
-            if (obj.status == 1)
+            if (obj.status == -1)
                 v1 = 0;
             else
                 v1 = v0 + a*T;		% current velocity based on elapsed time
             end
-	end
-
-	function obj = set.positionx(obj,x)
-	    % when 'positionx' is set, also reset time; leave v the same
-	    obj.positionx = x;		% set current positionx
-
-            obj.time = tic;             % store current time
-	end
     end
+    
+    
+end
 end
