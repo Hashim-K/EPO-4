@@ -65,7 +65,7 @@ classdef car
     
 	function obj = set.status(obj,stat)
 	    % first update positionx based on the old velocity
-        obj.status = stat
+        obj.status = stat;
     end
     
     function obj = set.positionx(obj,x)
@@ -83,16 +83,18 @@ classdef car
             v = obj.velocity;		% v = velocity at time t0
             %global status_x_pos
             T = toc(t0);		% elapsed time (in seconds) since t0
-            %if (obj.status == 1)
-            %    x1 = status_x_pos;
-            %else
-                x1 = x0 + v*T;		% current positionx based on elapsed time
-            %end
+            if (obj.status == 1)
+                x1 = x0 + v*T;
+            else		% current positionx based on elapsed time
+%                obj.positionx=x0;
+%                x1 = obj.positionx;
+               x1=x0;
+            end
     end
     
     function stat = get.status(obj) %cr is the status
         global x
-            if(x > 600 | x < 0)
+            if(obj.status~=-1 & (x > 600 | x < 0))
                 obj.status=-1;	
             end
                 stat = obj.status;
@@ -101,16 +103,16 @@ classdef car
 	function v1 = get.velocity(obj)
 	    % when 'positionx' is queried, calculate current positionx
 	    % (note, cannot update it because 'obj' is not an output param)
-            t1 = obj.time;		% t1 = time when last called
+            t0 = obj.time;		% t0 = time when last called
             v0 = obj.velocity;		% v0 = velocity at time t0
             a = obj.acceleration;		% v = accel at time t0
 
-            T = toc(t1);		% elapsed time (in seconds) since t0
+            T = toc(t0);		% elapsed time (in seconds) since t0
 
-            if (obj.status == -1)
-                v1 = 0;
-            else
+            if (obj.status == 1)
                 v1 = v0 + a*T;		% current velocity based on elapsed time
+            else
+                v1 = 0;
             end
     end
     
