@@ -43,9 +43,9 @@ classdef car
 	    t = obj.time;
         stat = obj.status;
 
-	    disp("position-x: " + x(1)+"position-y: " + x(2));
-        disp("velocity-x: " + v(1)+"velocity-y: " + v(2));
-        disp("acceleration-x: " + a(1)+"acceleration-y: " + a(2));
+	    disp("position-x: " + x(1)+" position-y: " + x(2));
+        disp("velocity-x: " + v(1)+" velocity-y: " + v(2));
+        disp("acceleration-x: " + a(1)+" acceleration-y: " + a(2));
         disp("status: " + statustext(stat+2));
 	    disp("time since last update: "+toc(t));
     end
