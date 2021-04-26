@@ -33,8 +33,10 @@ function x_vec=ExtractFeat(y,Fs,L,ov,threshold)
     x7=nanmean(f1f2);
     x8=nanmedian(f1f2);
     x9=nanvar(f1f2);
+    F = fft(y); 
+    x10 = sum(F.*conj(F));
 
     % putting all the features together: size 1*15
-    x_vec=[x1,x2,x3,x4,x5,x6,x7,x8,x9];
+    x_vec=[x1,x2,x3,x4,x5,x6,x7,x8,x9, x10];
     
 end
