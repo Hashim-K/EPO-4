@@ -24,9 +24,10 @@ classdef car
             angle=0;
 	    end	
 	    obj.position = x;   % (calls set.positionx; also starts timer)
-	    obj.velocity = [0,0,0];	% calls set.velocity (thus, init value needed)
-        obj.acceleration = a;
-        obj.angle
+	    obj.velocity = [0,0];	% calls set.velocity (thus, init value needed)
+        obj.acceleration = calcA(f,alpha);
+        obj.angle=alpha;
+        obj.force=f;
         obj.status=0;
     end
 
@@ -72,7 +73,7 @@ classdef car
         obj.acceleration = a;		% then, update velocity
     end
     
-	function obj = set.magnitude(obj,f)
+	function obj = set.force(obj,f)
 	    %first update position, velocity and accel based on the old force
         aTemp = obj.acceleration;		% calls get.acceleration, gives a at t1, not t0
         obj.acceleration = aTemp;		% calls set.acceleration; resets timer
