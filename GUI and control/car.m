@@ -123,19 +123,9 @@ classdef car
     end
       
 	function a = get.acceleration(obj)
-	    % when 'positionx' is queried, calculate current positionx
-	    % (note, cannot update it because 'obj' is not an output param)
-            t0 = obj.time;		% t0 = time when last called
-            a0 = obj.acceleration;		% v0 = velocity at time t0
-            a = obj.acceleration;		% v = accel at time t0
-
-            T = toc(t0);		% elapsed time (in seconds) since t0
-
-            if (obj.status == 1)
-                v = v0 + a*T;		% current velocity based on elapsed time
-            else
-                v = 0;
-            end
+            f=obj.force;
+            alpha=obj.angle;          
+            a = calcA(f,alpha);
     end
       
     function stat = get.status(obj) %cr is the status
