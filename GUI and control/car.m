@@ -118,7 +118,7 @@ classdef car
             if (obj.status == 1)
                 v = v0 + a*T;		% current velocity based on elapsed time
             else
-                v = 0;
+                v = [0,0];
             end
     end
       
