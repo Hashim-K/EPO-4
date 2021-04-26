@@ -9,7 +9,6 @@ classdef car
     angle %steering angle
 	time
     status; % -1 = crash, 0 = off, 1 = on, 2=success
-    statustext=["crash", "off", "on", "success"]
     end
 
     methods
@@ -20,8 +19,8 @@ classdef car
 	    if nargin == 0
             % if no input arguments
 	        x = [0,0];
-            f=0;
-            alpha=0;
+            f=150;
+            alpha=150;
 	    end	
 	    obj.position = x;   % (calls set.positionx; also starts timer)
 	    obj.velocity = [0,0];	% calls set.velocity (thus, init value needed)
@@ -36,6 +35,7 @@ classdef car
 	    % disp prints the object's values
 	    % first update position based on current time and velocity
         global x
+        statustext=["crash", "off", "on", "success"];
 	    x = obj.position;
 	    v = obj.velocity;
         a = obj.acceleration;
@@ -43,9 +43,9 @@ classdef car
 	    t = obj.time;
         stat = obj.status;
 
-	    disp("position: " + x);
-        disp("velocity: " + v);
-        disp("acceleration: " + a);
+	    disp("position-x: " + x(1)+"position-y: " + x(2));
+        disp("velocity-x: " + v(1)+"velocity-y: " + v(2));
+        disp("acceleration-x: " + a(1)+"acceleration-y: " + a(2));
         disp("status: " + statustext(stat+2));
 	    disp("time since last update: "+toc(t));
     end
@@ -123,9 +123,7 @@ classdef car
     end
       
 	function a = get.acceleration(obj)
-            f=obj.force;
-            alpha=obj.angle;          
-            a = calcA(f,alpha);
+            a = obj.acceleration;
     end
       
     function stat = get.status(obj) %cr is the status
