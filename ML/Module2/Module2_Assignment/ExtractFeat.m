@@ -37,6 +37,6 @@ function x_vec=ExtractFeat(y,Fs,L,ov,threshold)
     x10 = sum(F.*conj(F));
 
     % putting all the features together: size 1*15
-    x_vec=[x1,x2,x3,x4,x5,x6,x7,x8,x9, x10];
+    x_vec=[x1, x4(:,2), x9, x10];
     
 end
