@@ -123,9 +123,7 @@ classdef car
     end
       
 	function a = get.acceleration(obj)
-            f=obj.force;
-            alpha=obj.angle;          
-            a = calcA(f,alpha);
+            a = obj.acceleration;
     end
       
     function stat = get.status(obj) %cr is the status
