@@ -9,7 +9,6 @@ classdef car
     angle %steering angle
 	time
     status; % -1 = crash, 0 = off, 1 = on, 2=success
-    statustext=["crash", "off", "on", "success"]
     end
 
     methods
@@ -36,6 +35,7 @@ classdef car
 	    % disp prints the object's values
 	    % first update position based on current time and velocity
         global x
+        statustext=["crash", "off", "on", "success"]
 	    x = obj.position;
 	    v = obj.velocity;
         a = obj.acceleration;
