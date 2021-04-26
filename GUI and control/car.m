@@ -21,7 +21,7 @@ classdef car
             % if no input arguments
 	        x = [0,0];
             f=0;
-            angle=0;
+            alpha=0;
 	    end	
 	    obj.position = x;   % (calls set.positionx; also starts timer)
 	    obj.velocity = [0,0];	% calls set.velocity (thus, init value needed)
@@ -152,6 +152,7 @@ classdef car
         m=13;
         a(1)= (f-Fr)*cos(alpha)/m;
         a(2)= (f-Fr)*sin(alpha)/m;
-        end
     end
+    
+end
 end
