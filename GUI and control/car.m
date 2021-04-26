@@ -21,12 +21,13 @@ classdef car
             % if no input arguments
 	        x = [0,0];
             f=0;
-            angle=0;
+            alpha=0;
 	    end	
 	    obj.position = x;   % (calls set.positionx; also starts timer)
-	    obj.velocity = [0,0,0];	% calls set.velocity (thus, init value needed)
-        obj.acceleration = a;
-        obj.angle
+	    obj.velocity = [0,0];	% calls set.velocity (thus, init value needed)
+        obj.acceleration = calcA(f,alpha);
+        obj.angle=alpha;
+        obj.force=f;
         obj.status=0;
     end
 
@@ -45,7 +46,7 @@ classdef car
 	    disp("position: " + x);
         disp("velocity: " + v);
         disp("acceleration: " + a);
-        disp("status: " + statustext[stat+2]);
+        disp("status: " + statustext(stat+2));
 	    disp("time since last update: "+toc(t));
     end
 
@@ -72,7 +73,7 @@ classdef car
         obj.acceleration = a;		% then, update velocity
     end
     
-	function obj = set.magnitude(obj,f)
+	function obj = set.force(obj,f)
 	    %first update position, velocity and accel based on the old force
         aTemp = obj.acceleration;		% calls get.acceleration, gives a at t1, not t0
         obj.acceleration = aTemp;		% calls set.acceleration; resets timer
@@ -122,19 +123,9 @@ classdef car
     end
       
 	function a = get.acceleration(obj)
-	    % when 'positionx' is queried, calculate current positionx
-	    % (note, cannot update it because 'obj' is not an output param)
-            t0 = obj.time;		% t0 = time when last called
-            a0 = obj.acceleration;		% v0 = velocity at time t0
-            a = obj.acceleration;		% v = accel at time t0
-
-            T = toc(t0);		% elapsed time (in seconds) since t0
-
-            if (obj.status == 1)
-                v = v0 + a*T;		% current velocity based on elapsed time
-            else
-                v = 0;
-            end
+            f=obj.force;
+            alpha=obj.angle;          
+            a = calcA(f,alpha);
     end
       
     function stat = get.status(obj) %cr is the status
@@ -144,13 +135,6 @@ classdef car
             end
                 stat = obj.status;
     end
-    
-    %physics modelling
-    function a = calcA(f, alpha)
-        Fr=150;
-        m=13;
-        a(1)= (f-Fr)*cos(alpha)/m;
-        a(2)= (f-Fr)*sin(alpha)/m;
     
 end
 end
