@@ -35,7 +35,7 @@ classdef car
 	    % disp prints the object's values
 	    % first update position based on current time and velocity
         global x
-        statustext=["crash", "off", "on", "success"]
+        statustext=["crash", "off", "on", "success"];
 	    x = obj.position;
 	    v = obj.velocity;
         a = obj.acceleration;
