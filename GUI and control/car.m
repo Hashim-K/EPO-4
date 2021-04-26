@@ -1,82 +1,66 @@
 classdef car 
     properties
-	%car properties
-	position		% reference positionx at time t0
-	velocity = [0,0];		% init value is needed!
-    acceleration = [0,0];
-    force
-    vAngle = 0;
-    angle %steering angle
+	% status parameters
+	positionx		% reference positionx at time t0
+    positiony
+	velocity = 0;		% init value is needed!
+    acceleration = 0;
 	time
-    status; % -1 = crash, 0 = off, 1 = on, 2=success
-    statustext=["crash", "off", "on", "success"]
+    status; % -1 = crash, 0 = off, 1 = on
     end
 
     methods
-        
-    %constructor
-	function obj = car(x,f,alpha)
+	function obj = car(x,v,a)
 	    % constructor (same name as class); returns initialized object
 	    if nargin == 0
-            % if no input arguments
-	        x = [0,0];
-            f=0;
-            angle=0;
+	        x = 0; v = 0;	a = 0;% if no input arguments
 	    end	
-	    obj.position = x;   % (calls set.positionx; also starts timer)
-	    obj.velocity = [0,0,0];	% calls set.velocity (thus, init value needed)
+	    obj.positionx = x;   % (calls set.positionx; also starts timer)
+	    obj.velocity = v;	% calls set.velocity (thus, init value needed)
         obj.acceleration = a;
-        obj.angle
         obj.status=0;
-    end
+        
+	end
 
-    %display method
 	function disp(obj)
 	    % disp prints the object's values
-	    % first update position based on current time and velocity
+	    % first update positionx based on current time and velocity
         global x
-	    x = obj.position;
+	    x = obj.positionx;	% calls get.positionx, calculates based on current velocity and time
+        %y = obj.positiony;
 	    v = obj.velocity;
         a = obj.acceleration;
-        f = obj.force;
 	    t = obj.time;
         stat = obj.status;
 
-	    disp("position: " + x);
-        disp("velocity: " + v);
-        disp("acceleration: " + a);
-        disp("status: " + statustext[stat+2]);
-	    disp("time since last update: "+toc(t));
-    end
+	    s = sprintf('positionx: %g',x);
+	    disp(s);
+	    s = sprintf('velocity: %g',v);
+	    disp(s);
+	    s = sprintf('acceleration: %g',a);
+	    disp(s);
+	    s = sprintf('status: %g',stat);
+	    disp(s);
+	    s = sprintf('time since last update: %g',toc(t));
+	    disp(s);
+	end
 
-    
-    
-    %set methods    
-    function obj = set.position(obj,x)
-	    %when 'position' is set, also reset time; leave v the same
-	    obj.position = x;           % set current position
-        obj.time = tic;             % store current time
-    end
-    
 	function obj = set.velocity(obj,v)
-	    %first update positionx based on the old velocity
-        xTemp = obj.position;		% calls get.position, gives x at t1, not t0
-        obj.position = xTemp;		% calls set.position; resets timer
-        obj.velocity = v;           % then, update velocity
+	    % first update positionx based on the old velocity
+            x1 = obj.positionx;		% calls get.positionx, gives x1, not x0
+
+            obj.positionx = x1;		% calls set.positionx; resets timer
+
+             obj.velocity = v;		% then, update velocity
+
     end
     
 	function obj = set.acceleration(obj,a)
-	    %first update position and velocity based on the old acceleration
-        vTemp = obj.velocity;		% calls get.velocity, gives v at t1, not t0
-        obj.velocity = vTemp;		% calls set.velocity; resets timer
-        obj.acceleration = a;		% then, update velocity
-    end
-    
-	function obj = set.magnitude(obj,f)
-	    %first update position, velocity and accel based on the old force
-        aTemp = obj.acceleration;		% calls get.acceleration, gives a at t1, not t0
-        obj.acceleration = aTemp;		% calls set.acceleration; resets timer
-        obj.force = f;                  % then, update force
+	    % first update positionx based on the old velocity
+            v1 = obj.velocity;		% calls get.positionx, gives x1, not x0
+
+            obj.velocity = v1;		% calls set.positionx; resets timer
+	    obj.acceleration = a;		% then, update velocity
     end
     
 	function obj = set.status(obj,stat)
@@ -84,28 +68,39 @@ classdef car
         obj.status = stat;
     end
     
+    function obj = set.positionx(obj,x)
+	    % when 'positionx' is set, also reset time; leave v the same
+	    obj.positionx = x;		% set current positionx
 
+            obj.time = tic;             % store current time
+    end
     
-    
-    
-    
-    %get methods
-	function x = get.position(obj)
+	function x1 = get.positionx(obj)
 	    % when 'positionx' is queried, calculate current positionx
 	    % (note, cannot update it because 'obj' is not an output param)
             t0 = obj.time;		% t0 = time when last called
-            x0 = obj.position;		% x0 = positionx at time t0
+            x0 = obj.positionx;		% x0 = positionx at time t0
             v = obj.velocity;		% v = velocity at time t0
-            a = obj.acceleration;		% a = acceleration at time t0
+            %global status_x_pos
             T = toc(t0);		% elapsed time (in seconds) since t0
             if (obj.status == 1)
-                x = x0 + v*T ; %+ 0.5*a*T^2
-            else		
-               x=x0;
+                x1 = x0 + v*T;
+            else		% current positionx based on elapsed time
+%                obj.positionx=x0;
+%                x1 = obj.positionx;
+               x1=x0;
             end
     end
-  
-	function v = get.velocity(obj)
+    
+    function stat = get.status(obj) %cr is the status
+        global x
+            if(obj.status~=-1 & (x > 600 | x < 0))
+                obj.status=-1;	
+            end
+                stat = obj.status;
+    end
+    
+	function v1 = get.velocity(obj)
 	    % when 'positionx' is queried, calculate current positionx
 	    % (note, cannot update it because 'obj' is not an output param)
             t0 = obj.time;		% t0 = time when last called
@@ -115,42 +110,12 @@ classdef car
             T = toc(t0);		% elapsed time (in seconds) since t0
 
             if (obj.status == 1)
-                v = v0 + a*T;		% current velocity based on elapsed time
+                v1 = v0 + a*T;		% current velocity based on elapsed time
             else
-                v = 0;
+                v1 = 0;
             end
-    end
-      
-	function a = get.acceleration(obj)
-	    % when 'positionx' is queried, calculate current positionx
-	    % (note, cannot update it because 'obj' is not an output param)
-            t0 = obj.time;		% t0 = time when last called
-            a0 = obj.acceleration;		% v0 = velocity at time t0
-            a = obj.acceleration;		% v = accel at time t0
-
-            T = toc(t0);		% elapsed time (in seconds) since t0
-
-            if (obj.status == 1)
-                v = v0 + a*T;		% current velocity based on elapsed time
-            else
-                v = 0;
-            end
-    end
-      
-    function stat = get.status(obj) %cr is the status
-        global x
-            if(obj.status~=-1 & (x > 600 | x < 0))
-                obj.status=-1;	
-            end
-                stat = obj.status;
     end
     
-    %physics modelling
-    function a = calcA(f, alpha)
-        Fr=150;
-        m=13;
-        a(1)= (f-Fr)*cos(alpha)/m;
-        a(2)= (f-Fr)*sin(alpha)/m;
     
 end
 end
