@@ -19,8 +19,8 @@ classdef car
 	    if nargin == 0
             % if no input arguments
 	        x = [0,0];
-            f=0;
-            alpha=0;
+            f=150;
+            alpha=150;
 	    end	
 	    obj.position = x;   % (calls set.positionx; also starts timer)
 	    obj.velocity = [0,0];	% calls set.velocity (thus, init value needed)
