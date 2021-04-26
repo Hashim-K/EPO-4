@@ -11,7 +11,7 @@ L = Fs*win;
 ov = 0.5*L;
 
 num_samples=size(data,2);
-num_feat=16;
+num_feat=4;
 
 % matrix for recording the features
 X=zeros(num_samples, num_feat);
@@ -27,7 +27,7 @@ end
 % Y=[ones(20,1);2.*ones(20,1);3.*ones(20,1);4.*ones(20,1)];
 Y = [ones(20,1);2.*ones(20,1);3.*ones(20,1)];
 
-percent_train_split=70/100;
+percent_train_split=100/100;
 [train_id,test_id]=train_test_split(Y,percent_train_split);
 
 % splitting the inputs
