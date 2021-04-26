@@ -151,6 +151,6 @@ classdef car
         m=13;
         a(1)= (f-Fr)*cos(alpha)/m;
         a(2)= (f-Fr)*sin(alpha)/m;
-    
-end
+        end
+    end
 end
