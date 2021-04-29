@@ -75,10 +75,11 @@ classdef car
     end
     
 	function obj = set.force(obj,f)
+        obj.force = f;                  % then, update force
 	    %first update position, velocity and accel based on the old force
         aTemp = obj.acceleration;		% calls get.acceleration, gives a at t1, not t0
         obj.acceleration = aTemp;		% calls set.acceleration; resets timer
-        obj.force = f;                  % then, update force
+        
     end
     
 	function obj = set.status(obj,stat)
