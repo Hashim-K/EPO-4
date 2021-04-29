@@ -1,32 +1,43 @@
+if exist('Ini','var')==0
+    n=0;
+    m=1;
+end
+limit=20; %Number of recordings wanted
+if n==limit
+    m=m+1; %select what word gets recorded
+end
 Fs = 8000;
-n=n+1;
+n=n+1; %select which recording is getting recorded
+
+
+
+array=["ini","go","halt","on","start","stop","boot","power"];
 recObj = audiorecorder(Fs,16,1); % create audio object, 16 bits resolution
-disp('Start speaking...')
+disp("Say " + array(m))
 recordblocking(recObj, 2); % do a 2 second recording (blocking)
 disp('End of Recording.');
 plot(getaudiodata(recObj));
-dir=lower(input("What direction?: [Ini/Go/Halt/On/Start/Stop/Boot/Power]", 's'))
-if dir=="ini"
+if array(m)=="ini"
     Ini(:,n) = getaudiodata(recObj);
 end
-if dir=="go"
+if array(m)=="go"
     Go(:,n) = getaudiodata(recObj);
 end
-if dir=="halt"
+if array(m)=="halt"
     Halt(:,n) = getaudiodata(recObj);
 end
-if dir=="on"
+if array(m)=="on"
     On(:,n) = getaudiodata(recObj);
 end
-if dir=="start"
+if array(m)=="start"
     Start(:,n) = getaudiodata(recObj);
 end
-if dir=="stop"
+if array(m)=="stop"
     Stop(:,n) = getaudiodata(recObj);
 end
-if dir=="boot"
+if array(m)=="boot"
     Boot(:,n) = getaudiodata(recObj);
 end
-if dir=="power"
+if array(m)=="power"
     Power(:,n) = getaudiodata(recObj);
 end
