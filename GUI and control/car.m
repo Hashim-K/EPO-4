@@ -47,6 +47,7 @@ classdef car
         disp("velocity-x: " + v(1)+" velocity-y: " + v(2));
         disp("acceleration-x: " + a(1)+" acceleration-y: " + a(2));
         disp("status: " + statustext(stat+2));
+        disp("Force: " + f);
 	    disp("time since last update: "+toc(t));
     end
 
