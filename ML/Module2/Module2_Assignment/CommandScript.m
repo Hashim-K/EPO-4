@@ -44,10 +44,10 @@ Xtest= (Xtest-mu_train)./sigma_train;
 
 [idx,scores] = fscmrmr(Xtrain,Ytrain);
 
-figure;bar(idx,scores(idx))%Create bar graph
-xlabel('Feature')
-set(gca,'TickLabelInterpreter','latex');
-ylabel('Predictor Score'); hold off;
+% figure;bar(idx,scores(idx))%Create bar graph
+% xlabel('Feature')
+% set(gca,'TickLabelInterpreter','latex');
+% ylabel('Predictor Score'); hold off;
 
 rng default
 % number of trees
@@ -75,3 +75,4 @@ x_test = (x_test-mu_train)./sigma_train;
 % predic
 y_test_pred = model.predict(x_test)
 toc;
+save('mymodel.mat','model','mu_train','sigma_train');
