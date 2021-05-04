@@ -1,4 +1,4 @@
-classdef car 
+classdef car2 
     properties
 	%car properties
 	position		% reference positionx at time t0
@@ -14,7 +14,7 @@ classdef car
     methods
         
     %constructor
-	function obj = car(x,f,alpha)
+	function obj = car2(x,f,alpha)
 	    % constructor (same name as class); returns initialized object
 	    if nargin == 0
             % if no input arguments
@@ -101,13 +101,13 @@ classdef car
         disp("get position");
 	    % when 'positionx' is queried, calculate current positionx
 	    % (note, cannot update it because 'obj' is not an output param)
-            t0 = obj.time;		% t0 = time when last called
-            x0 = obj.position;		% x0 = positionx at time t0
-            v = obj.velocity;		% v = velocity at time t0
-            a = obj.acceleration;		% a = acceleration at time t0
-            T = toc(t0);		% elapsed time (in seconds) since t0
+            t0 = obj.time		% t0 = time when last called
+            x0 = obj.position		% x0 = positionx at time t0
+            v = obj.velocity		% v = velocity at time t0
+            a = obj.acceleration		% a = acceleration at time t0
+            T = toc(t0)		% elapsed time (in seconds) since t0
             if (obj.status == 1)
-                x = x0 + v*T ; %+ 0.5*a*T^2
+                x = x0 + v*T  %+ 0.5*a*T^2
             else		
                x=x0;
             end
