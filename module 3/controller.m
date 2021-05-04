@@ -1,13 +1,21 @@
-Fa = 10;
+Fai = 10
+Fbi = 10
+distance = 6
+
+
+Fa = Fai;
 Fb = 0;
 v0 = 0;
 s0 = 0;
-output = sim('KITTDynamicsFinal','StartTime','0','StopTime','2','FixedStep','0.01');
+output = sim('KITTDynamicsFinal','StartTime','0','StopTime','6','FixedStep','0.01');
 Fa = 0;
-Fb = 10;
-v0 = 10.58;
+Fb = Fbi;
+p = [m/(2*Fb) 0 -1*distance];
+r = roots(p);
+
+v0 = r(1);
 s0 = 0;
-output1 = sim('KITTDynamicsFinal','StartTime','0','StopTime','2','FixedStep','0.01');
+output1 = sim('KITTDynamicsFinal','StartTime','0','StopTime','6','FixedStep','0.01');
 
 
 plot(output.s.signals.values, output.v.signals.values);
