@@ -1,4 +1,4 @@
-classdef model
+classdef model < handle
     %MODEL Summary of this class goes here
     %   Detailed explanation goes here
     
