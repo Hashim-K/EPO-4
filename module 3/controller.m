@@ -1,14 +1,16 @@
+%function distance_to_wall = controller(Fai, Fbi, distance, timer_period, margin)
+
 b = 5;
 c = 0.1;
 m = 5.6;
 Fai = 10;
 Fbi = 10;
-distance = 4.96;
+
+distance = 5;
 margin = 0.02;
+timer_period = 0.1;
 
 
-%start_pos = 1;
-%stop_pos = 2.28;
 
 
 Fa = Fai;
@@ -55,6 +57,7 @@ end
 
 stop_t = output.v.time(i,1)
 
-s = x_stop - v_max*0.03 - margin %correct for maximum sensor delay (30 ms * max velocity) and adda margin
+s = x_stop - v_max*0.03 - timer_period*v_max - margin %correct for maximum sensor delay (30 ms * max velocity) and adda margin
 
-
+distance_to_wall = 6 - s %this is the correct coordinate system
+%end
