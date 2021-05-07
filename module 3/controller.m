@@ -16,7 +16,7 @@ Fa = Fai;
 Fb = 0;
 v0 = 0;
 s0 = 0;
-output = sim('KITTDynamicsFinal', 'StartTime','0','StopTime','8','FixedStep','0.01', 'SrcWorkspace','current');
+output = sim('KITTDynamicsFinal', 'StartTime','0','StopTime','8','FixedStep','0.005', 'SrcWorkspace','current');
 
 
 Fa = 0;
@@ -26,7 +26,7 @@ s = 0;
 v0 = 0.1;
 while(s < distance - 0.004)%find fit to position
     i = 1;
-    output1 = sim('KITTDynamicsFinal', 'StartTime','0','StopTime','8','FixedStep','0.01', 'SrcWorkspace','current');
+    output1 = sim('KITTDynamicsFinal', 'StartTime','0','StopTime','8','FixedStep','0.005', 'SrcWorkspace','current');
     while(output1.v.signals.values(i,1) > 0.01) %searching untill velocity is more then v
         i = i+1;
     end
