@@ -56,7 +56,7 @@ end
 
 stop_t = output.v.time(i,1);
 
-s = x_stop - v_max*0.03 - timer_period*v_max - margin; %correct for maximum sensor delay (30 ms * max velocity) and adda margin
+s = x_stop - v_max*0.05 - timer_period*v_max - margin; %correct for maximum sensor delay +setting force(50 ms * max velocity) and adda margin
 
 distance_to_wall = 6 - s; %this is the correct coordinate system
 end
