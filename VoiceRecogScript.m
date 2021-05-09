@@ -25,6 +25,7 @@ x_test = ExtractFeat(y, Fs, L, ov, threshold);
 x_test = (x_test-mu_train)./sigma_train;
 
 % predict
-y_test_pred = model.predict(x_test);
+[y_test_pred, score] = model.predict(x_test);
 
 disp(y_test_pred);
+disp(score);
