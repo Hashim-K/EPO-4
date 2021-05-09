@@ -44,18 +44,19 @@ classdef model < handle
         f = obj.force;
         alpha=obj.angle;
         tspan=toc(t0);
-        [t,Vecx] = ode45(@(t,vector) motion_ode(t, vector, f*cosd(alpha) ), [0 tspan], [Vx(1);Vx(2)]);
-        [t,Vecy] = ode45(@(t,vector) motion_ode(t, vector, f*sind(alpha) ), [0 tspan], [Vy(1);Vy(2)]);
-        if(obj.status~=-1 & (Vecx(end,1) > 600 | Vecx(end,1) < 0) & ( Vecy(end,1) > 600 | Vecy(end,1)  < 0))
+        if(obj.status~=-1 & (Vx(end,1) > 600 | Vx(end,1) < 0) & ( Vy(end,1) > 600 | Vy(end,1)  < 0))
                 obj.status=-1;	
         end
         stat = obj.status;
+        if stat == 1
+            [t,Vx] = ode45(@(t,vector) motion_ode(t, vector, f*cosd(alpha) ), [0 tspan], [Vx(1);Vx(2)]);
+            [t,Vy] = ode45(@(t,vector) motion_ode(t, vector, f*sind(alpha) ), [0 tspan], [Vy(1);Vy(2)]);
+        end
         
-        
-        obj.VectorX=[Vecx(end,1),Vecx(end,2)];
-        obj.VectorY=[Vecy(end,1),Vecy(end,2)];
-	    disp("position-x: " + Vecx(end,1)+" position-y: " + Vecy(end,1));
-        disp("velocity-x: " + Vecx(end,2)+" velocity-y: " + Vecy(end,2));
+        obj.VectorX=[Vx(end,1),Vx(end,2)];
+        obj.VectorY=[Vy(end,1),Vy(end,2)];
+	    disp("position-x: " + Vx(end,1)+" position-y: " + Vy(end,1));
+        disp("velocity-x: " + Vx(end,2)+" velocity-y: " + Vy(end,2));
         disp("status: " + statustext(stat+2));
         disp("Force: " + f);
 	    disp("time since last update: "+tspan);
