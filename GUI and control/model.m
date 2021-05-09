@@ -44,8 +44,12 @@ classdef model < handle
         f = obj.force;
         alpha=obj.angle;
         tspan=toc(t0);
-        if(obj.status~=-1 & (Vx(end,1) > 600 | Vx(end,1) < 0) & ( Vy(end,1) > 600 | Vy(end,1)  < 0))
-                obj.status=-1;	
+        if(obj.status~=-1 && ((Vx(end,1) > 6 || Vx(end,1) < 0) || ( Vy(end,1) > 6 || Vy(end,1)  < 0))  )
+            disp("CRASH")
+            obj.status=-1;	
+            Vx(end,2)=0;
+            Vy(end,2)=0;
+            obj.force=0;
         end
         stat = obj.status;
         if stat == 1
@@ -68,14 +72,22 @@ classdef model < handle
         if obj.debug == 1
             disp("set Force");
         end
-	    obj.force = f;
+        if obj.status == -1
+            obj.force=0;
+        else
+            obj.force = f;
+        end
     end
     
     function obj = set.angle(obj,alpha)
         if obj.debug == 1
             disp("set Angle"); 
         end
-	    obj.angle = alpha;
+        if obj.status == -1
+            obj.angle=0;
+        else
+            obj.angle = alpha;
+        end
     end
     
     function obj = set.VectorX(obj,Vx)
