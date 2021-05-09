@@ -12,6 +12,7 @@ classdef model < handle
         VectorY % VectorY(1)= posY, VectorY(2)=velocityY 
         status % -1 = crash, 0 = off, 1 = on, 2 = success
         debug
+        set
     end
     
     methods
@@ -33,6 +34,7 @@ classdef model < handle
         obj.initialTime=tic;
         obj.finalTime=tic;
         obj.debug=0;
+        obj.set=0;
     end
 
     %display method
@@ -56,12 +58,13 @@ classdef model < handle
             obj.force=0;
         end
         stat = obj.status;
-        if stat == 1
+        if stat == 1 || stat == 2
             [t,Vx] = ode45(@(t,vector) motion_ode(t, vector, f*cosd(alpha) ), [0 tspan], [Vx(1);Vx(2)]);
             [t,Vy] = ode45(@(t,vector) motion_ode(t, vector, f*sind(alpha) ), [0 tspan], [Vy(1);Vy(2)]);
         end
-        if stat == 2
+        if stat == 2 && obj.set == 0
             obj.finalTime=tic;
+            obj.set=1;
         end
         
         obj.VectorX=[Vx(end,1),Vx(end,2)];
