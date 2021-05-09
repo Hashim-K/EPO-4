@@ -9,6 +9,7 @@ classdef model < handle
         VectorX % VectorX(1)= posX, VectorX(2)=velocityX
         VectorY % VectorY(1)= posY, VectorY(2)=velocityY 
         status % -1 = crash, 0 = off, 1 = on, 2 = success
+        debug
     end
     
     methods
@@ -27,13 +28,16 @@ classdef model < handle
         obj.force=f;
         obj.status=0;
         obj.time=tic;
+        obj.debug=0;
     end
 
     %display method
 	function disp(obj)
 	    % disp prints the object's values
         statustext=["crash", "off", "on", "success"];
-        disp("Display method is active")
+        if obj.debug == 1
+            disp("Display method is active")
+        end
         Vx=obj.VectorX;
         Vy=obj.VectorY;
 	    t0 = obj.time;
@@ -60,64 +64,88 @@ classdef model < handle
     
     %set methods    
     function obj = set.force(obj,f)
-        disp("set Force");
+        if obj.debug == 1
+            disp("set Force");
+        end
 	    obj.force = f;
     end
     
     function obj = set.angle(obj,alpha)
-        disp("set Angle");
+        if obj.debug == 1
+            disp("set Angle"); 
+        end
 	    obj.angle = alpha;
     end
     
     function obj = set.VectorX(obj,Vx)
-        disp("set Vector X");
+        if obj.debug == 1
+            disp("set Vector X"); 
+        end
 	    obj.VectorX = Vx;
     end
     
     function obj = set.VectorY(obj,Vy)
-        disp("set Vector Y");
+        if obj.debug == 1
+            disp("set Vector Y");
+        end
 	    obj.VectorY = Vy;
     end
     
     function obj = set.status(obj,stat)
-	    disp("set Status");
+        if obj.debug == 1
+            disp("set Status");
+        end
         obj.status = stat;
     end
     
     function obj = set.time(obj,t)
-	    disp("set Time");
+        if obj.debug == 1
+            disp("set Time"); 
+        end
         obj.time = tic;
     end
     
     %get methods
     function f = get.force(obj)
-        disp("get Force");
-            f = obj.force;
+        if obj.debug == 1
+            disp("get Force"); 
+        end
+        f = obj.force;
     end
     
     function alpha = get.angle(obj)
-        disp("get Angle");
-            alpha = obj.angle;
+        if obj.debug == 1
+            disp("get Angle");
+        end
+        alpha = obj.angle;
     end
     
     function Vx = get.VectorX(obj)
-        disp("get Vector X");
-            Vx = obj.VectorX;
+        if obj.debug == 1
+            disp("get Vector X"); 
+        end
+        Vx = obj.VectorX;
     end
     
     function Vy = get.VectorY(obj)
-        disp("get Vector Y");
-            Vy = obj.VectorY;
+        if obj.debug == 1
+            disp("get Vector Y");
+        end
+        Vy = obj.VectorY;
     end
     
     function stat = get.status(obj)
-        disp("get Status");
-            stat = obj.status;
+        if obj.debug == 1
+            disp("get Status");
+        end
+        stat = obj.status;
     end
     
     function t = get.time(obj)
-        disp("get Time");
-            t = obj.time;
+        if obj.debug == 1
+            disp("get Time");
+        end
+        t = obj.time;
     end
     
 end
