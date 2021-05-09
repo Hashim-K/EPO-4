@@ -3,6 +3,8 @@ classdef model < handle
     %   Detailed explanation goes here
     
     properties
+        initialTime
+        finalTime
         time
         force
         angle
@@ -28,6 +30,8 @@ classdef model < handle
         obj.force=f;
         obj.status=0;
         obj.time=tic;
+        obj.initialTime=tic;
+        obj.finalTime=tic;
         obj.debug=0;
     end
 
@@ -55,6 +59,9 @@ classdef model < handle
         if stat == 1
             [t,Vx] = ode45(@(t,vector) motion_ode(t, vector, f*cosd(alpha) ), [0 tspan], [Vx(1);Vx(2)]);
             [t,Vy] = ode45(@(t,vector) motion_ode(t, vector, f*sind(alpha) ), [0 tspan], [Vy(1);Vy(2)]);
+        end
+        if stat == 2
+            obj.finalTime=tic;
         end
         
         obj.VectorX=[Vx(end,1),Vx(end,2)];
@@ -118,6 +125,21 @@ classdef model < handle
         obj.time = tic;
     end
     
+    function obj = set.initialTime(obj,ti)
+        if obj.debug == 1
+            disp("set Initial Time"); 
+        end
+        obj.initialTime = ti;
+    end
+    
+    
+    function obj = set.finalTime(obj,tf)
+        if obj.debug == 1
+            disp("set Final Time"); 
+        end
+        obj.finalTime = tf;
+    end
+    
     %get methods
     function f = get.force(obj)
         if obj.debug == 1
@@ -159,6 +181,20 @@ classdef model < handle
             disp("get Time");
         end
         t = obj.time;
+    end
+    
+    function ti = get.initialTime(obj)
+        if obj.debug == 1
+            disp("get Initial Time");
+        end
+        ti = obj.initialTime;
+    end
+    
+    function tf = get.finalTime(obj)
+        if obj.debug == 1
+            disp("get Final Time");
+        end
+        tf = obj.finalTime;
     end
     
 end
