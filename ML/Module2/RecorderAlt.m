@@ -5,6 +5,7 @@ end
 limit=20; %Number of recordings wanted
 if n==limit
     m=m+1; %select what word gets recorded
+    n=0;
 end
 Fs = 8000;
 n=n+1; %select which recording is getting recorded
@@ -17,6 +18,7 @@ disp("Say " + array(m))
 recordblocking(recObj, 2); % do a 2 second recording (blocking)
 disp('End of Recording.');
 plot(getaudiodata(recObj));
+play(recObj);
 if array(m)=="ini"
     Ini(:,n) = getaudiodata(recObj);
 end
