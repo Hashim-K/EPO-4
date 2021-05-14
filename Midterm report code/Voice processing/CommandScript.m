@@ -29,7 +29,7 @@ end
 % Y=[ones(20,1);2.*ones(20,1);3.*ones(20,1);4.*ones(20,1)];
 Y = [ones(20,1);2.*ones(20,1);3.*ones(20,1)];
 
-percent_train_split=70/100;
+percent_train_split=100/100;
 [train_id,test_id]=train_test_split(Y,percent_train_split);
 
 % splitting the inputs
@@ -46,10 +46,13 @@ Xtest= (Xtest-mu_train)./sigma_train;
 
 [idx,scores] = fscmrmr(Xtrain,Ytrain);
 
-% figure;bar(idx,scores(idx))%Create bar graph
-% xlabel('Feature')
-% set(gca,'TickLabelInterpreter','latex');
-% ylabel('Predictor Score'); hold off;
+
+%---------Predictor Score Bar Chart------%
+figure;bar(idx,scores(idx))%Create bar graph
+xlabel('Feature')
+set(gca,'TickLabelInterpreter','latex');
+ylabel('Predictor Score'); hold off;
+%----------------------------------------%
 
 rng default
 % number of trees
@@ -60,19 +63,19 @@ model = TreeBagger( nTrees,Xtrain,Ytrain ...
     , 'Method', 'classification');
 save('mymodel2.mat','model','mu_train','sigma_train');
 %----------Confusion Matrix Section------%
-Ytest_pred_str = model.predict(Xtest);
-Ytest_pred = str2double(Ytest_pred_str);
-num_classes=length(unique(Y));
-
-Ytest_cat=zeros(num_classes,size(Ytest,1));
-Ytest_pred_cat=zeros(num_classes,size(Ytest,1));
-
-for i=1:num_classes
-    Ytest_cat(i, Ytest==i) = 1;
-    Ytest_pred_cat(i, Ytest_pred==i) = 1;
-end
-
-figure; plotconfusion(Ytest_cat,Ytest_pred_cat); hold off;
+% Ytest_pred_str = model.predict(Xtest);
+% Ytest_pred = str2double(Ytest_pred_str);
+% num_classes=length(unique(Y));
+% 
+% Ytest_cat=zeros(num_classes,size(Ytest,1));
+% Ytest_pred_cat=zeros(num_classes,size(Ytest,1));
+% 
+% for i=1:num_classes
+%     Ytest_cat(i, Ytest==i) = 1;
+%     Ytest_pred_cat(i, Ytest_pred==i) = 1;
+% end
+% 
+% figure; plotconfusion(Ytest_cat,Ytest_pred_cat); hold off;
 %----------------------------------------%
 
 %----------Recording Section-------------%

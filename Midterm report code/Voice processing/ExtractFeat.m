@@ -65,6 +65,7 @@ function x_vec = ExtractFeat(y,Fs,L,ov,threshold)
     % putting all the features together: size 1*16
 %     x_vec=[x1, x4(:,2), x9, x10, x11, x12, x13];
 %     x_vec=[x1, x2, x3, x4, x5, x6, x7, x8, x9, x10];
+%     x_vec=[x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13];
     x_vec=[x11(214) x11(226) x12(108) x12(118) x12(256) x12(279) x13(43)...
             x13(203) x13(241) x13(267) x13(283)];
     
