@@ -2,24 +2,19 @@ function [distance_to_wall, stop_t, v_max] = controller(Fai, Fbi, distance, time
 
 
 
-b = 5;
+b = 5; %the constants for the friction and mass
 c = 0.1;
 m = 5.6;
-% Fai = 10;
-% Fbi = 10;
-% 
-% distance = 5;
-% margin = 0.02;
-% timer_period = 0.1;
 
-Fa = Fai;
+
+Fa = Fai; %settting initial conditions for maximum accelerating from start
 Fb = 0;
 v0 = 0;
 s0 = 0;
 output = sim('KITTDynamicsFinal', 'StartTime','0','StopTime','8','FixedStep','0.005', 'SrcWorkspace','current');
 
 
-Fa = 0;
+Fa = 0; %setting initial conditions for maximum braking
 Fb = Fbi;
 
 s = 0;
@@ -31,15 +26,15 @@ while(s < distance - 0.004)%find fit to position
         i = i+1;
     end
     
-    s = output1.s.signals.values(i,1);
-    v0 = v0 + (distance - s)*0.6;
+    s = output1.s.signals.values(i,1); %look for intersection with x-axis
+    v0 = v0 + (distance - s)*0.6; %increase v0 for next iteration
 
 plot(output1.s.signals.values, output1.v.signals.values);
 hold on;
 end
 
 
-plot(output.s.signals.values, output.v.signals.values);
+plot(output.s.signals.values, output.v.signals.values); %plotting the last data of the iteration
 hold on;
 plot(output1.s.signals.values, output1.v.signals.values);
 title('Velocity of the car');
