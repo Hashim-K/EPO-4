@@ -15,7 +15,7 @@ clear variables;% needed to clear the internal state of EPOCommunications
 EPOCommunications('init','X[100;0]');	% initial position of car
 EPOCommunications('init','D[0;1]');	% initial direction of car
 
-% define positions of microphones
+% define positions of microphonesw
 P = [
 0   600     0   600;
 0     0   600   600;
