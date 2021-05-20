@@ -1,5 +1,5 @@
 %Matched filter deconvolution
-function hhat = deconmf(y, x)
+function hhat = deconmf(x, y)
 
     Nx = length(x);
     x = x(:); y = y(:);    % ensure column vectors
