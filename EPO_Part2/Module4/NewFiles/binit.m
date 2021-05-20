@@ -18,7 +18,7 @@ function b = binit(Fs, F0, F1, C3, code)
     if (strcmp(code, "") == false)
         b.code = code;
     else
-        b.code = "aa55aa55";
+        b.code = "92340f0f";
     end
     b.button = true;
     
