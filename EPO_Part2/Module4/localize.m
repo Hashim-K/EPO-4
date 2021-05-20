@@ -1,5 +1,5 @@
 %Calvin's Script
-function [location, A, b] = localize(r, p)
+function location = localize(r, p)
     N = width(r);
     A = zeros((N-1)*N/2, N+1);
     b = zeros((N-1)*N/2, 1);
@@ -14,6 +14,6 @@ function [location, A, b] = localize(r, p)
         end
     end
     
-    result = (A\b)';
+    result = (A\b);
     location = [result(1); result(2)];
 end

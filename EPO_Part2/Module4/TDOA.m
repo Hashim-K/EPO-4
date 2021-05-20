@@ -1,5 +1,5 @@
 %Calvin's Script
-function r = TDOA(h, Fs)
+function location = TDOA(h, p, Fs)
     c = 343;
     tolerance = 0.05;
     maxDist = sqrt(2)*6;
@@ -17,7 +17,9 @@ function r = TDOA(h, Fs)
                 pkloc(1)+searRange,j)) > tolerance*max(abs(h(pkloc(1)...
                 -searRange:pkloc(1)+searRange,j))));
             end
-            r(i,j) = (pkloc(1)-pkloc2(1))*(c/Fs);
+            r(i,j) = 100*(pkloc(1)-pkloc2(1))*(c/Fs);%Conversion from m to 
+            %to cm takes place
         end
     end
+    location = localize(r, p);
 end
