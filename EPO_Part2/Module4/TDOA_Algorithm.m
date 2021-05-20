@@ -1,15 +1,16 @@
 %made by Hashim
-function x = TDOA_Algorithm(receiver,transmission,position,Fs)
+function [x, A, b, R, y, hhat] = TDOA_Algorithm(transmission,receiver,position,Fs)
     N=height(receiver); %number of microphones
 
     %calculate indexes
     for i=1:N
-        hhat(i,:)=deconmf(receiver(i,:),transmission);
+        hhat(i,:)=deconmf(transmission,receiver(i,:));
         [maxA,delay(i)]=max(hhat(i,:));
-        index(i)=delay(i)-1;
+        index(i)=find( hhat(i,:)>0.8*maxA, 1 )-1;
         %d(i)=(343*index(i)/Fs);
     end
-    
+    disp(delay);
+    disp(index);
     %initialize left matrix
     A=zeros((N-1)*N/2,N+1);
     b=zeros((N-1)*N/2,1);
