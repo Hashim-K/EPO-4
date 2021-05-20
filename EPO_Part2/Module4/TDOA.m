@@ -16,7 +16,6 @@ function r = TDOA(h, Fs)
                 pkloc2 = searRange + find(abs(h(pkloc(1)-searRange:...
                 pkloc(1)+searRange,j)) > tolerance*max(abs(h(pkloc(1)...
                 -searRange:pkloc(1)+searRange,j))));
-                
             end
             r(i,j) = (pkloc(1)-pkloc2(1))*(c/Fs);
         end
