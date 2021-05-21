@@ -13,7 +13,9 @@ function b = binit(Fs, F0, F1, C3, code)
         b.Freq1 = F1;
     end
     if (C3 ~= -1)
-        b.C3 = C3;
+        b.Count3 = C3;
+    else
+        b.Count3 = 64;
     end
     if (strcmp(code, "") == false)
         b.code = code;

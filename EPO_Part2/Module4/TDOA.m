@@ -1,4 +1,6 @@
 %Calvin's Script
+%This top version finds all values greater than a tolerance * the max value
+%and then takes the first value found as the peak.
 % function location = TDOA(h, p, Fs)
 %     c = 343;
 %     tolerance = 0.05;
@@ -23,10 +25,13 @@
 %     end
 %     location = localize(r, p);
 % end
-
+%-------------------------------------%
+%This second version looks for all values greater than the tolerance * max 
+%value and sets any value that isn't greater than the tolerance * the max 
+%value to zero then the peaks are found and the first one is taken.
 function [location, r] = TDOA(h, p, Fs)
     c = 343;
-    tolerance = 0.3;
+    tolerance = 0.5;
     maxDist = sqrt(2)*6;
     searRange = ceil(maxDist*Fs/c);
     N = width(h);
