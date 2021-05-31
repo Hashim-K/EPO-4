@@ -1,6 +1,7 @@
 %Matched filter deconvolution
-function hhat = deconmf(y, x)
-
+function hhat = deconmf(x, y)
+    
+    y = [y; zeros(length(x),1)];%zero padding
     Nx = length(x);
     x = x(:); y = y(:);    % ensure column vectors
     xr = flipud(x);        % reverse the sequence x (assuming a col vector)
