@@ -11,7 +11,7 @@ function h = deconfd(x, y, eps)
     H = Y ./ X;                          % frequency domain deconvolution
 
     ii = find(abs(X) > eps);
-    G = zeros(1,length(X));
+    G = transpose(zeros(1,length(X)));
     for i = 1:length(ii)
         G(ii(i)) = 1;
     end

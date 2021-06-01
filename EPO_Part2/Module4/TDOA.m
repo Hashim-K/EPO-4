@@ -1,17 +1,17 @@
 %Calvin's Script
 %This top version finds all values greater than a tolerance * the max value
 %and then takes the first value found as the peak.
-% function location = TDOA(h, p, Fs)
+% function [location,r] = TDOA(h, p, Fs)
 %     c = 343;
-%     tolerance = 0.05;
-%     maxDist = sqrt(2)*6;
+%     tolerance = 0.4;
+%     maxDist = sqrt(4.7^2 + 4.68^2);
 %     searRange = ceil(maxDist*Fs/c);
 %     N = width(h);
 %     r = zeros(N-1,N);
 %     for i = 1:N-1
 %         for j = i+1:N
 %             pkloc = find(abs(h(:,i)) > tolerance*max(abs(h(:,i))));
-%             if pkloc(1) < searRange
+%             if pkloc(1) <= searRange
 %                 pkloc2 = find(abs(h(1:pkloc(1)+searRange,j)) >...
 %                 tolerance*max(abs(h(1:pkloc(1)+searRange,j))));
 %             else
@@ -34,7 +34,7 @@
 function [location, r] = TDOA(h, p, Fs)
     c = 343;
     tolerance = 0.1;
-    maxDist = sqrt(2)*6;
+    maxDist = sqrt(4.7^2 + 4.68^2);
     searRange = ceil(maxDist*Fs/c);
     N = width(h);
     r = zeros(N-1,N);
@@ -56,9 +56,9 @@ function [location, r] = TDOA(h, p, Fs)
                 [~, pks2] = findpeaks(abs(compVec2));
                 pks2 = pks2 + searRange;
             end
-            %r(i,j) = 100*(pks1(1)-pks2(1))*(c/Fs);%Conversion from m
+            r(i,j) = 100*(pks1(1)-pks2(1))*(c/Fs);%Conversion from m
             %to cm takes place
-            r(i,j) = (pks1(1)-pks2(1))*(c/Fs);
+%             r(i,j) = (pks1(1)-pks2(1))*(c/Fs);
         end
     end
     location = localize(r, p);

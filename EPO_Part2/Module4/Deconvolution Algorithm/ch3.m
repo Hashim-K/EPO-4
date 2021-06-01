@@ -17,7 +17,7 @@ function [h_adjL,Hhat,G,g]=ch3(x,y,L,eps)
     X = fft(x,Ny);
     
     %set G(k) to 1 if |x|>eps, else set it to 0
-    G=ones(1,length(X));
+    G=transpose(ones(1,length(X)));
     for k=1:length(X)
         if (abs(X(k)) < eps)
             G(k)=0;
