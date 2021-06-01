@@ -56,8 +56,9 @@ function [location, r] = TDOA(h, p, Fs)
                 [~, pks2] = findpeaks(abs(compVec2));
                 pks2 = pks2 + searRange;
             end
-            r(i,j) = 100*(pks1(1)-pks2(1))*(c/Fs);%Conversion from m
+            %r(i,j) = 100*(pks1(1)-pks2(1))*(c/Fs);%Conversion from m
             %to cm takes place
+            r(i,j) = (pks1(1)-pks2(1))*(c/Fs);
         end
     end
     location = localize(r, p);
