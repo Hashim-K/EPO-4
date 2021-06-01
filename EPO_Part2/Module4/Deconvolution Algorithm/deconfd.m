@@ -1,7 +1,8 @@
 %Frequency domain deconvolution
 function h = deconfd(x, y, eps)
 
-    Ny = length(y); 
+    y = [y; zeros(length(x),1)]; %zero padding
+    Ny = length(y);
     Nx = length(x); 
     L = Ny - Nx + 1;
 
