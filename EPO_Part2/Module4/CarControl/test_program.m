@@ -1,3 +1,5 @@
+kitt = EPOCommunications('open','P'); % create kitt! now in public mo
+
 
 waypoints = [0 0; ...
 	100 100; ...
@@ -29,12 +31,12 @@ position = [0,0]
 g1 = plot(pathPoints(1), pathPoints(2),'r+');
 g2 = plot(points(1), points(2),'rx');
 
-i = 0
-k_t = 1
+i = 0;
+k_t = 1;
 k_d = 0.001;
 
 while(i < 500)
-    i = i + 1
+i = i + 1
 position = [i,i]
 pathPoints = closestPoint(refPath,position)
 delete(g1)
@@ -68,7 +70,7 @@ end
 setSteering(steering);
 force = 1;
 setMotorSpeed(force);
-pause(0.025)
+pause(0.05)
 
 end
             

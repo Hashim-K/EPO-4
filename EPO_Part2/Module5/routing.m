@@ -32,8 +32,9 @@ g2 = plot(points(1), points(2),'rx');
 i = 0
 k_t = 1
 k_d = 0.001;
+
 while(i < 500)
-    i = i + 10
+    i = i + 1
 position = [i,i]
 pathPoints = closestPoint(refPath,position)
 delete(g1)
@@ -58,9 +59,16 @@ else
     end
 end
 steering = k_t*(theta_path - theta_rover) + k_d*a*distance_to_path^2
-
-
-pause(0.25)
+if(steering > 45)
+    steering = 45;
+end
+if(steering < -45)
+    steering = -45;
+end
+setSteering(steering);
+force = 1;
+setMotorSpeed(force);
+pause(0.025)
 
 end
             
