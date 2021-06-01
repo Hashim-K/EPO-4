@@ -8,7 +8,7 @@ function micout = micdata(beacon, micpos, carpos)
     EPOCommunications('init', ['J' int2str(beacon.Fs)]);%Mic sample freq
     EPOCommunications('init','N80000'); %Number of samples
     
-    kitt = EPOCommunications('open', 'P');
+    kitt = EPOCommunications('open');
     
     %Changing the beacon settings of the kitt
     EPOCommunications('transmit',['B' int2str(beacon.Freq1)]); % set the bit frequency
