@@ -32,8 +32,9 @@
 %value and sets any value that isn't greater than the tolerance * the max 
 %value to zero then the peaks are found and the first one is taken.
 function [location, r] = TDOA(h, p, Fs)
+    k = 1;
     c = 343;
-    tolerance = 0.1;
+    tolerance = 0.3;
     maxDist = sqrt(4.7^2 + 4.68^2);
     searRange = ceil(maxDist*Fs/c);
     N = width(h);
@@ -43,22 +44,25 @@ function [location, r] = TDOA(h, p, Fs)
             pkloc = abs(h(:,i)) > tolerance*max(abs(h(:,i)));
             compVec1 = pkloc.*h(:,i);
             [~, pks1] = findpeaks(abs(compVec1));
-            if pks1(1) < searRange
+            if pks1(1) <= searRange
                 pkloc2 = abs(h(1:pks1(1)+searRange,j)) >...
                 tolerance*max(abs(h(1:pks1(1)+searRange,j)));
+            
                 compVec2 = pkloc2.*h(1:pks1(1)+searRange,j);
                 [~, pks2] = findpeaks(abs(compVec2));
             else
                 pkloc2 = abs(h(pks1(1)-searRange:...
                 pks1(1)+searRange,j)) > tolerance*max(abs(h(pks1(1)...
                 -searRange:pks1(1)+searRange,j)));
+            
                 compVec2 = pkloc2.*h(pks1(1)-searRange:pks1(1)+searRange,j);
                 [~, pks2] = findpeaks(abs(compVec2));
-                pks2 = pks2 + searRange;
+                pks2 = pks2 + pks1(1)-searRange;
             end
+            subplot(10,2,2*k)
+            plot(compVec2)
             r(i,j) = 100*(pks1(1)-pks2(1))*(c/Fs);%Conversion from m
             %to cm takes place
-%             r(i,j) = (pks1(1)-pks2(1))*(c/Fs);
         end
     end
     location = localize(r, p);
