@@ -3,7 +3,7 @@
 %and then takes the first value found as the peak.
 % function [location,r] = TDOA(h, p, Fs)
 %     c = 343;
-%     tolerance = 0.4;
+%     tolerance = 0.6;
 %     maxDist = sqrt(4.7^2 + 4.68^2);
 %     searRange = ceil(maxDist*Fs/c);
 %     N = width(h);
@@ -32,9 +32,8 @@
 %value and sets any value that isn't greater than the tolerance * the max 
 %value to zero then the peaks are found and the first one is taken.
 function [location, r] = TDOA(h, p, Fs)
-    k = 1;
     c = 343;
-    tolerance = 0.8;
+    tolerance = 0.6;
     maxDist = sqrt(4.7^2 + 4.68^2);
     searRange = ceil(maxDist*Fs/c);
     N = width(h);
