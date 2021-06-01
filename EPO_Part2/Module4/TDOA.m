@@ -15,7 +15,7 @@
 %                 pkloc2 = find(abs(h(1:pkloc(1)+searRange,j)) >...
 %                 tolerance*max(abs(h(1:pkloc(1)+searRange,j))));
 %             else
-%                 pkloc2 = searRange + find(abs(h(pkloc(1)-searRange:...
+%                 pkloc2 = pkloc(1) - searRange + find(abs(h(pkloc(1)-searRange:...
 %                 pkloc(1)+searRange,j)) > tolerance*max(abs(h(pkloc(1)...
 %                 -searRange:pkloc(1)+searRange,j))));
 %             end
@@ -34,7 +34,7 @@
 function [location, r] = TDOA(h, p, Fs)
     k = 1;
     c = 343;
-    tolerance = 0.3;
+    tolerance = 0.8;
     maxDist = sqrt(4.7^2 + 4.68^2);
     searRange = ceil(maxDist*Fs/c);
     N = width(h);
@@ -59,8 +59,6 @@ function [location, r] = TDOA(h, p, Fs)
                 [~, pks2] = findpeaks(abs(compVec2));
                 pks2 = pks2 + pks1(1)-searRange;
             end
-            subplot(10,2,2*k)
-            plot(compVec2)
             r(i,j) = 100*(pks1(1)-pks2(1))*(c/Fs);%Conversion from m
             %to cm takes place
         end
