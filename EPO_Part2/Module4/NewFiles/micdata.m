@@ -20,5 +20,5 @@ function micout = micdata(beacon, micpos, carpos)
     EPOCommunications('transmit', 'A1');
  
     micout = EPOCommunications('receive');
-    EPOCommunications('close');
+    kitt = EPOCommunications('close');
 end
