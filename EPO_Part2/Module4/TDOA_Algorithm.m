@@ -1,7 +1,7 @@
 %made by Hashim
 function [x, A, b, R, y, hhat] = TDOA_Algorithm(transmission,receiver,position,Fs)
     N=width(receiver); %number of microphones
-    tolerance=0.7;
+    tolerance=0.65;
     %calculate indexes
     for i=1:N %mode 0 = freq domain, mode 1 = match filter
         hhat(:,i)=decon(transmission, receiver(:,i), 1); 
