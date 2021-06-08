@@ -1,7 +1,7 @@
 clear all;
 p = [0 0 468 468 233; 0 470 470 0 0; 50 50 50 50 80];
-carpos = [150; 6];
-Fs = 40000;
+carpos = [400; 1];
+Fs = 44100;
 b = binit(-1, -1, -1, 2500, "50f1072b");
 %f2d41e3c
 y = micdata(b, p, carpos);
