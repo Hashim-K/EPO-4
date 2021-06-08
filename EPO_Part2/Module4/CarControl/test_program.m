@@ -6,6 +6,8 @@ endpoint = [500,400];
 
 path = routing(radius, waypoint_1, start, endpoint);
 
+passed_waypoint = 0;
+
 x_coor = path(1,:);
 y_coor = path(2,:);
 plot(x_coor,y_coor)
@@ -59,8 +61,32 @@ if(steering < -45)
 end
 steering
 %setSteering(steering);
-force = 1;
-%setMotorSpeed(force);
+
+
+%bang bang controller
+[distance_waypoint distance_endpoint] = arclength(position, path)
+
+force = 7.5 %force without braking
+if(passed_waypoint == 1)
+    distance_waypoint = 0;
+end
+if(distance_waypoint ~= 0) %distance is zero when car passed waypoint
+    if(distance_waypoint < 30) %remmen, simpel voor nu
+        force = 0
+        setMotorSpeed(force);
+        passed_waypoint = 1;
+        pause(5) %wait for standing still and measuring
+        
+    end
+else
+    if(distance_endpoint < 30)
+        force = 0
+        setMotorSpeed(force); %end of programm
+        pause(5)
+    end
+end
+
+setMotorSpeed(force);
 pause(0.01)
 
 end
