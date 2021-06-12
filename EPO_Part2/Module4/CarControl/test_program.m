@@ -27,9 +27,9 @@ g2 = plot(path(1,1), path(2,1),'gx');
 
 
 while(i < 500)
-i = i + 1
-position = [i,i]
-[n, distance_to_path] = closest_point(position, path)
+i = i + 1;
+position = [i,i];
+[n, distance_to_path] = closest_point(position, path);
 delete(g1)
 delete(g2)
 
@@ -59,12 +59,14 @@ end
 if(steering < -45)
     steering = -45;
 end
-steering
+steering;
 %setSteering(steering);
 
 
 %bang bang controller
-[distance_waypoint distance_endpoint] = arclength(position, path)
+[distance_waypoint distance_endpoint] = arclength(position, path);
+
+
 
 force = 7.5 %force without braking
 if(passed_waypoint == 1)
