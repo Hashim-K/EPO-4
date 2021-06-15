@@ -1,10 +1,11 @@
 %made by Hashim
-function [x, A, b, R, y, hhat] = TDOA(transmission,receiver,position,Fs)
+function [x, A, b, R, y, hhat] = TDOA(transmission, receiver, position, Fs, deconMode)
     N=width(receiver); %number of microphones
     tolerance=0.65;
+    peakMode=1;
     %calculate indexes
     for i=1:N %mode 0 = freq domain, mode 1 = match filter
-        hhat(:,i)=decon(transmission, receiver(:,i), 1); 
+        hhat(:,i)=decon(transmission, receiver(:,i), deconMode); 
     end
 %     R= peak_detection(hhat,tolerance,position, Fs);
     
@@ -14,7 +15,7 @@ function [x, A, b, R, y, hhat] = TDOA(transmission,receiver,position,Fs)
     k=1;
     for i=1:N-1
         for j=i+1:N
-            R(i,j)=peaks_detection(hhat,tolerance,position, Fs, i, j);
+            R(i,j)=peaks_detection(hhat,tolerance,position, Fs, i, j, peakMode);
             
             %fill left matrix
             A(k,1)=2*(position(1,j)-position(1,i));
