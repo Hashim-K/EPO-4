@@ -1,7 +1,7 @@
 %Calvin's Script
 %This top version finds all values greater than a tolerance * the max value
 %and then takes the first value found as the peak.
-function [location,r] = TDOA(h, p, Fs)
+function location = TDOA(h, p, Fs)
     c = 343;
     tolerance = 0.85;
     maxDist = sqrt(4.7^2 + 4.68^2);

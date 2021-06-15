@@ -33,7 +33,7 @@ end
 %value to zero then the peaks are found and the first one is taken.
 % function location = TDOA(h, p, Fs)
 %     c = 343;
-%     tolerance = 0.8;
+%     tolerance = 0.65;
 %     maxDist = sqrt(4.7^2 + 4.68^2);
 %     searRange = ceil(maxDist*Fs/c);
 %     N = width(h);
