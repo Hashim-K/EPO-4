@@ -2,7 +2,7 @@ clear all;
 close all;
 clc;
 
-load mymodel.mat;
+load modelFinalChall.mat;
 
 Fs = 8000;
 win = 20e-3;
@@ -13,7 +13,7 @@ ov = 0.5*L;
 recObj = audiorecorder(Fs,16,1); % create audio object, 16 bits resolution
 disp('Start speaking...')
 
-recordblocking(recObj, 2); % do a 2 second recording (blocking)
+recordblocking(recObj, 0.75); % do a 2 second recording (blocking)
 disp('End of Recording.');
 
 y = getaudiodata(recObj);
