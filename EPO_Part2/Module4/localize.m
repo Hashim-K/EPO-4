@@ -19,7 +19,7 @@
 % end
 
 function location = localize(r, p)
-    N = width(r);
+    N = size(r,2);
     A = zeros((N-1)*N/2, N+1);
     b = zeros((N-1)*N/2, 1);
     k = 1;
