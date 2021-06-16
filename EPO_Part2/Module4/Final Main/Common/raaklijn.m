@@ -1,4 +1,6 @@
 function h = raaklijn(x1,y1,r, Xpoint, Ypoint)
+%Function for generating the tangent to circles. Taken from https://nl.mathworks.com/matlabcentral/answers/258780-how-to-plot-tangent-line-from-specified-point-to-a-circle
+
 
 % % % % % PLOT TANGENTS TO A CIRCLE FROM A POINT OUTSIDE THE CIRCLE —
 % % Reference: https://en.wikipedia.org/wiki/Law_of_cosines

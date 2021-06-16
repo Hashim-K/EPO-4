@@ -1,4 +1,5 @@
 function [min_i, min] = closest_point(point, path)
+%function to determine closest point from a path 
 min = 999999999999;
 min_i = 0;
 for i = 1:length(path)
