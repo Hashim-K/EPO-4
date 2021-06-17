@@ -62,7 +62,7 @@ i = i + 1;
     data1 = get_pos(x,p)
     
 
-   while((sqrt((data1(1) - old_data(1))^2 + (data1(2) - old_data(2))^2  )> 50) && n<5 )
+   while((sqrt((data1(1) - old_data(1))^2 + (data1(2) - old_data(2))^2  ) > 30) && n<5 )
             data1 = get_pos(x,p)
              n=n+1
                   
