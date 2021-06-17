@@ -1,16 +1,15 @@
 clc;
-load("Tellegen/close_mic_recording.mat");
+load("H:\My Documents\EPO-4\EPO_Part2\Module4\Final_recording_mic.mat");
 Port ='\\.\COM15';
-result = EPOCommunications('close');
+
 result = EPOCommunications('open',Port);
 EPOCommunications('transmit','S'); 
-
 EPOCommunications('transmit','B15000'); % set the bit frequency
 EPOCommunications('transmit','F5000');% set the carrier frequency
 EPOCommunications('transmit','R2500'); % set the repetition count
 EPOCommunications('transmit','C0x50f1072b'); % set the audio cod
 
-p = [0 0 468 468 233 ; 0 470 470 0 0 ; 50 50 50 50 80 ];
+p = [0 0 471 471 233 ; 0 473 473 0 0 ; 24 24 24 24 54 ];
 
 %x = x(8000:10000);
 
@@ -44,7 +43,7 @@ data = [0, 0];
 old_data = [20,20];
 while(i < 500)
 i = i + 1;
-EPOCommunications('transmit','A1');
+
 
     % LABEL again
     
@@ -52,12 +51,16 @@ EPOCommunications('transmit','A1');
     %data2 =   get_pos(x,p);
     old_data = data;
     n=1;
-    while((sqrt((data1(1) - old_data(1))^2 + (data1(2) - old_data(2))^2  )> 50) || n==10 )
-        EPOCommunications('transmit','A1');
-        data1 = get_pos(x,p);
-        EPOCommunications('transmit','A0');
-        n=n+1;
-    end
+    
+   
+    data1 = get_pos(x,p)
+ 
+    
+   while((sqrt((data1(1) - old_data(1))^2 + (data1(2) - old_data(2))^2  )> 90) && n<10 )
+            data1 = get_pos(x,p)
+             n=n+1
+             disp("in whil")
+   end
     data(1) = (data1(1));%+data2(1))/2;
     data(2) = (data1(2));%+data2(2))/2;
 
@@ -92,7 +95,7 @@ end
 if(steering < -22)
     steering = -22;
 end
-steering
+
 setSteering(steering);
 
 
@@ -100,7 +103,7 @@ setSteering(steering);
 [distance_waypoint, distance_endpoint] = arclength(position, path);
 
 
-EPOCommunications('transmit','A0');
+
 force = 10; %force without braking
 setMotorSpeed(force);
 pause(0.45)
@@ -125,9 +128,9 @@ pause(0.45)
 % end
 
 setMotorSpeed(0);
-pause(0.01)
+pause(0.8)
 
 end
-
+result = EPOCommunications('close');
 
             %plot(app.UIAxes,waypoints(3,1),waypoints(3,2),'r+')

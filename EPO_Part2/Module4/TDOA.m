@@ -19,6 +19,8 @@ function [location,r] = TDOA(h, p, Fs)
                 pkloc(1)+searRange,j)) > tolerance*max(abs(h(pkloc(1)...
                 -searRange:pkloc(1)+searRange,j))));
             end
+            disp(pkloc(1))
+            disp(pkloc2(1))
             r(i,j) = 100*(pkloc(1)-pkloc2(1))*(c/Fs);%Conversion from m 
             %to cm takes place
         end
