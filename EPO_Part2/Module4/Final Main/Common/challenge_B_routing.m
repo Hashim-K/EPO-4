@@ -8,7 +8,7 @@ function path = challenge_B_routing(start, waypoint, endpos, radius, direction)
     wx2 = path1(1,end-2)
     wy2 = path1(2,end-2)
     
-    waypoint1 = [wx1 + (wx1-wx2)*20, wy1 + (wy1-wy2)*20] %making a point along the first path to make the routing possible
+    waypoint1 = [wx1 + (wx1-wx2)*40, wy1 + (wy1-wy2)*40] %making a point along the first path to make the routing possible
     
     path2 = routing(radius, waypoint1, waypoint, endpos)
     

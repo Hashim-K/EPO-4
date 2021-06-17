@@ -9,7 +9,7 @@ function [x, hhat] = TDOA_Algorithm(transmission,receiver,position,Fs)
 %     R= peak_detection(hhat,tolerance,position, Fs);
     
     %initialize left matrix
-    A=zeros((N-1)*N/2,N+1);
+    A=zeros((N-1)*N/2,N+2);
     b=zeros((N-1)*N/2,1);
     k=1;
     for i=1:N-1
@@ -19,7 +19,8 @@ function [x, hhat] = TDOA_Algorithm(transmission,receiver,position,Fs)
             %fill left matrix
             A(k,1)=2*(position(1,j)-position(1,i));
             A(k,2)=2*(position(2,j)-position(2,i));
-            A(k,j+1)=-2*R(i,j);
+            A(k,3)=2*(position(3,j)-position(3,i));
+            A(k,j+2)=-2*R(i,j);
             
             b(k)=R(i,j)^2-norm(position(:,i))^2+norm(position(:,j))^2;
             k=k+1;

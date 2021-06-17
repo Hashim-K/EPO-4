@@ -8,26 +8,28 @@ EPOCommunications('transmit','B15000'); % set the bit frequency
 EPOCommunications('transmit','F5000');% set the carrier frequency
 EPOCommunications('transmit','R2500'); % set the repetition count
 EPOCommunications('transmit','C0x50f1072b'); % set the audio cod
-
+clf;
 p = [0 0 471 471 233 ; 0 473 473 0 0 ; 24 24 24 24 54 ];
 
 %x = x(8000:10000);
 
-radius = 70;
+radius = 120;
 waypoint_1 = [250,100];
-start = [0,0];
-endpoint = [500,400];
+start = [400,100];
+endpoint = [100,400];
+direction = 90;
 
+path = challenge_A_routing(start, endpoint, radius, direction)
+challenge = 1;%1 is challenge A, 2 is B
 
-path = routing(radius, waypoint_1, start, endpoint);
 
 passed_waypoint = 0;
 
 x_coor = path(1,:);
 y_coor = path(2,:);
 plot(x_coor,y_coor)
-            xlim([0, 600])
-            ylim([0, 600])
+            xlim([0, 475])
+            ylim([0, 475])
 hold on;
 plot(waypoint_1(1), waypoint_1(2),'r+');
 
@@ -40,7 +42,11 @@ k_d = 1;
 g1 = plot(position(1), position(2),'gx');
 g2 = plot(path(1,1), path(2,1),'gx');
 data = [0, 0];
-old_data = [20,20];
+
+
+old_data = start;
+data = start;
+angle_pred = 0; 
 while(i < 500)
 i = i + 1;
 
@@ -49,21 +55,45 @@ i = i + 1;
     
     %pause(0.5)
     %data2 =   get_pos(x,p);
-    old_data = data;
+    
     n=1;
     
    
     data1 = get_pos(x,p)
- 
     
-   while((sqrt((data1(1) - old_data(1))^2 + (data1(2) - old_data(2))^2  )> 90) && n<10 )
+
+   while((sqrt((data1(1) - old_data(1))^2 + (data1(2) - old_data(2))^2  )> 50) && n<5 )
             data1 = get_pos(x,p)
              n=n+1
+                  
              disp("in whil")
    end
+   
+    old_data_twice = data;
     data(1) = (data1(1));%+data2(1))/2;
     data(2) = (data1(2));%+data2(2))/2;
-
+    old_data = data;
+    
+    stopping_radius = 30;
+    
+    if((data(1) - endpoint(1))^2 + (data(2) - endpoint(2))^2 < stopping_radius^2)
+        setMotorSpeed(0);
+        disp("final point reached");
+        pause(40);
+    end
+    
+    if((data(1) - waypoint_1(1))^2 + (data(2) - waypoint_1(2))^2 < stopping_radius^2)
+        setMotorSpeed(0);
+        disp("waypoint reached");
+        pause(30);
+    end
+    
+    
+    
+    
+    
+    
+    
 position = data;
 [n, distance_to_path] = closest_point(position, path);
 delete(g1)
@@ -73,7 +103,8 @@ g1 = plot(position(1), position(2),'ro');
 g2 = plot(path(1,n), path(2,n),'go');
 
 theta_path = path(3,n);
-theta_rover = car_angle(old_data, data)
+
+theta_rover = car_angle(old_data_twice, data)
 theta_rover = theta_path;
 if(theta_rover^2 < 90^2) %if rover is looking towards right half plane
     if(position(2) < path(2,n)) %then if rover is beneath path steer to left
@@ -88,7 +119,7 @@ else
         a = 1;
     end
 end
-steering = k_t*(theta_path - theta_rover) + k_d*a*distance_to_path;
+steering = k_t*(theta_path - theta_rover) + k_d*a*distance_to_path^2;
 if(steering > 22)
     steering = 22;
 end
@@ -99,6 +130,7 @@ end
 setSteering(steering);
 
 
+
 %bang bang controller
 [distance_waypoint, distance_endpoint] = arclength(position, path);
 
@@ -106,7 +138,7 @@ setSteering(steering);
 
 force = 10; %force without braking
 setMotorSpeed(force);
-pause(0.45)
+pause(0.4)
 
 % if(passed_waypoint == 1)
 %     distance_waypoint = 0;
@@ -127,6 +159,10 @@ pause(0.45)
 %     end
 % end
 
+%[x_new, y_new, angle_pred] = predictor(old_data_twice(1) ,old_data_twice(2) ,angle_pred ,deg2rad(steering),0.4);
+%x_new = x_new*100; 
+%y_new = y_new *100; 
+ %plot(x_new, y_new,'bx');
 setMotorSpeed(0);
 pause(0.8)
 
