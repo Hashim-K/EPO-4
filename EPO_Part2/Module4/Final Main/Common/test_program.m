@@ -5,7 +5,6 @@ result = EPOCommunications('close');
 result = EPOCommunications('open',Port);
 EPOCommunications('transmit','S'); 
 
-EPOCommunications('transmit','A1');
 EPOCommunications('transmit','B15000'); % set the bit frequency
 EPOCommunications('transmit','F5000');% set the carrier frequency
 EPOCommunications('transmit','R2500'); % set the repetition count
@@ -42,23 +41,25 @@ k_d = 1;
 g1 = plot(position(1), position(2),'gx');
 g2 = plot(path(1,1), path(2,1),'gx');
 data = [0, 0];
-old_data = [0,0];
+old_data = [20,20];
 while(i < 500)
 i = i + 1;
 EPOCommunications('transmit','A1');
 
     % LABEL again
-
-    data1 = get_pos(x,p);
+    
     %pause(0.5)
     %data2 =   get_pos(x,p);
     old_data = data;
-    if(sqrt((data(1) - old_data(1))^2 + (data(2) - old_data(2))^2  )< 50 )
+    n=1;
+    while((sqrt((data1(1) - old_data(1))^2 + (data1(2) - old_data(2))^2  )> 50) || n==10 )
+        EPOCommunications('transmit','A1');
+        data1 = get_pos(x,p);
+        EPOCommunications('transmit','A0');
+        n=n+1;
+    end
     data(1) = (data1(1));%+data2(1))/2;
     data(2) = (data1(2));%+data2(2))/2;
-    else
-        goto('again')
-    end
 
 position = data;
 [n, distance_to_path] = closest_point(position, path);
