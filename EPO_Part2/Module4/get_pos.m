@@ -23,7 +23,7 @@ function pos = get_pos(x,p)
     [pos,h] = get_kitt_pos(x,y,p,44100);
     EPOCommunications('transmit','A0');
     disp("beacon off")
-%     figure('name','Y recordings')
+  %   figure('name','Y recordings')
 %     for i = 1:5
 %         subplot(5,1,i)
 %         plot(y(:,i))

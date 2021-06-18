@@ -13,16 +13,23 @@ p = [0 0 471 471 233 ; 0 473 473 0 0 ; 24 24 24 24 54 ];
 
 %x = x(8000:10000);
 
-radius = 120;
-waypoint_1 = [250,100];
+radius = 110;
+waypoint_1 = [200,200];
 start = [400,100];
-endpoint = [100,400];
-direction = 90;
+endpoint = [00,400];
+direction = 180;
 
-path = challenge_A_routing(start, endpoint, radius, direction)
 challenge = 1;%1 is challenge A, 2 is B
 
 
+
+
+if(challenge == 1)git
+    radius = 130; %max = 130
+    path = challenge_A_routing(start, endpoint, radius, direction);
+elseif(challenge == 2)
+    path = challenge_B_routing(start, waypoint_1, endpoint, radius, direction);
+end
 passed_waypoint = 0;
 
 x_coor = path(1,:);
@@ -76,17 +83,7 @@ i = i + 1;
     
     stopping_radius = 30;
     
-    if((data(1) - endpoint(1))^2 + (data(2) - endpoint(2))^2 < stopping_radius^2)
-        setMotorSpeed(0);
-        disp("final point reached");
-        pause(40);
-    end
     
-    if((data(1) - waypoint_1(1))^2 + (data(2) - waypoint_1(2))^2 < stopping_radius^2)
-        setMotorSpeed(0);
-        disp("waypoint reached");
-        pause(30);
-    end
     
     
     
@@ -132,9 +129,32 @@ setSteering(steering);
 
 
 %bang bang controller
-[distance_waypoint, distance_endpoint] = arclength(position, path);
+[distance_waypoint, distance_endpoint] = arclength(position, path)
 
 
+if(challenge == 1)
+    distance_waypoint = 9999;
+end
+
+
+stopping_radius = 10;
+if(distance_endpoint < stopping_radius)
+        setMotorSpeed(0);
+        disp("final point reached");
+        %music();
+        pause(60);
+end
+    
+    
+    stopping_radius = 35;
+
+
+    if(((waypoint_1(1) - data(1))^2+(waypoint_1(2) - data(2))^2) < stopping_radius^2)
+        setMotorSpeed(0);
+        disp("waypoint reached");
+        %music();
+        pause(60);
+    end
 
 force = 10; %force without braking
 setMotorSpeed(force);

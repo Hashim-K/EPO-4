@@ -1,6 +1,5 @@
-Port ='\\.\COM8';
-result = EPOCommunications('open',Port);
 
+function out = music()
 A = 1; 
 B = 2; 
 C = 3; 
@@ -47,5 +46,4 @@ EPOCommunications('transmit','C0xaa55aa55'); % set the audio cod
 
 pause(notes(i,2));
 end 
-
-result = EPOCommunications('close');
+end

@@ -125,6 +125,7 @@ end
 
 %looking up which points of th 100 circle points to use in which order
 tres = 2.5;
+endc = 0; 
 for i = 1:100
     if(abs(pathc(1,i) - waypoint_1(1)) < tres && abs(pathc(2,i) - waypoint_1(2)) < tres)
         beginc = i
